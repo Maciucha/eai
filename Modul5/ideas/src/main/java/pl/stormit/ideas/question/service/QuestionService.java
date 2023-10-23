@@ -20,7 +20,7 @@ public class QuestionService {
     }
 
     public Question getQuestion(UUID id) {
-        return new Question("Question, " + "Question id: " + id);
+        return new Question("Question, "  + id);
     }
 
     public Question createQuestion(Question question) {

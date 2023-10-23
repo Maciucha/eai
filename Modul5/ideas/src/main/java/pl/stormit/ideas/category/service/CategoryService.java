@@ -1,7 +1,8 @@
 package pl.stormit.ideas.category.service;
 
 import org.springframework.stereotype.Service;
-import pl.stormit.ideas.category.domain.model.Category;
+import pl.stormit.ideas.category.model.Category;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,22 +10,30 @@ import java.util.UUID;
 
 @Service
 public class CategoryService {
-    public List<Category> getCategorys() {
-        return Arrays.asList(new Category("Category 1"), new Category("Category 2"));
+    public List<Category> getCategories() {
+        return Arrays.asList(
+                new Category("Category 1"),
+                new Category("Category 2"),
+                new Category("Category 3"),
+                new Category("Category 4"),
+                new Category("Category 5")
+        );
     }
 
     public Category getCategory(UUID id) {
-        return new Category("Category, " + "Category id: " + id);
+        return new Category("Category, "  + id);
     }
 
     public Category createCategory(Category category) {
-        return null;
+        category.setId(UUID.randomUUID());
+        return category;
     }
 
     public Category updateCategory(UUID id, Category category) {
-        return null;
+        return category;
     }
 
     public void deleteCategory(UUID id) {
+
     }
 }
