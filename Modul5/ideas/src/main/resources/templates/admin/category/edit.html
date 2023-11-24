@@ -63,11 +63,12 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
-                                <form>
+                                <form method="post" th:object="${category}">
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="categoryName">Name</label>
-                                            <input type="email" class="form-control" id="categoryName" placeholder="Category name">
+                                            <input th:field="*{name}" type="text" class="form-control" id="categoryName" placeholder="Category name">
+                                            <input th:field="*{id}" type="hidden" />
                                         </div>
                                     </div>
                                     <!-- /.card-body -->
