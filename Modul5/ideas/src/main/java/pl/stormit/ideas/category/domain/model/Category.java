@@ -1,7 +1,5 @@
 package pl.stormit.ideas.category.domain.model;
 
-import jdk.jfr.Experimental;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;

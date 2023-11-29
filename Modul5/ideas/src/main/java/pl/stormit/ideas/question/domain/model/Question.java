@@ -1,42 +1,80 @@
 package pl.stormit.ideas.question.domain.model;
 
+import pl.stormit.ideas.category.domain.model.Category;
+
+import javax.persistence.*;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
+@Entity
+@Table(name = "questions")
 public class Question {
 
-	private UUID id;
-	private String name;
 
-	public Question() {
-	}
+    @Id
+    private UUID id;
+    private String name;
 
-	public Question(String name) {
-		this.name = name;
-		this.id = UUID.randomUUID();
-	}
+   @ManyToOne
+    private Category category;
 
-	public String getName() {
-		return name;
-	}
+    @OneToMany(mappedBy = "question")
+    private Set<Answer> answers;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Question() {
+        this.id = UUID.randomUUID();
+    }
 
-	public UUID getId() {
-		return id;
-	}
+    public Question addAnswer(Answer answer){
+        if (answers == null){
+            answers = new LinkedHashSet<>();
+        }
+        answer.setQuestion(this);
+        answers.add(answer);
+        return this;
+    }
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+    public Question(String name) {
+        this();
+        this.name = name;
+    }
 
-	@Override
-	public String toString() {
-		return "Question{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				'}';
-	}
+    public Set<Answer> getAnswers() {
+        return Collections.unmodifiableSet(answers);
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
 

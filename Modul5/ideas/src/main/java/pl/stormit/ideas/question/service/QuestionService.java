@@ -1,38 +1,53 @@
 package pl.stormit.ideas.question.service;
 
 import org.springframework.stereotype.Service;
-import pl.stormit.ideas.IdeasConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import pl.stormit.ideas.question.domain.model.Question;
+import pl.stormit.ideas.question.domain.repository.QuestionRepository;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class QuestionService {
 
+    private final QuestionRepository questionRepository;
 
+    public QuestionService(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
+    }
+
+    @Transactional(readOnly = true)
     public List<Question> getQuestions() {
-        return Arrays.asList(
-                new Question("Question 1"),
-                new Question("Question 2")
-        );
+        return questionRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Question getQuestion(UUID id) {
-        return new Question("Question, "  + id);
+        return questionRepository.getById(id);
     }
 
-    public Question createQuestion(Question question) {
-        question.setId(UUID.randomUUID());
-		return question;
+    @Transactional
+    public Question createQuestion(Question questionRequest) {
+        Question question = new Question();
+        question.setName(questionRequest.getName());
+        return questionRepository.save(question);
     }
 
-    public Question updateQuestion(UUID id, Question question) {
-        return question;
+    @Transactional
+    public Question updateQuestion(UUID id, Question questionRequest) {
+        Question question = questionRepository.getById(id);
+        question.setName(questionRequest.getName());
+        return questionRepository.save(question);
     }
 
+    @Transactional
     public void deleteQuestion(UUID id) {
+        questionRepository.deleteById(id);
+    }
 
+   @Transactional(readOnly = true)
+   public List<Question> findAllByCategoryId(UUID id) {
+    return questionRepository.findAllByCategoryId(id);
     }
 }
